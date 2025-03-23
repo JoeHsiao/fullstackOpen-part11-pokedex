@@ -1,6 +1,6 @@
 /* eslint no-console: "off" */
 
-import express from 'express'
+const express = require('express')
 const app = express()
 
 // get the port from env variable
