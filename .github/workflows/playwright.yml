@@ -19,8 +19,6 @@ jobs:
       run: npx playwright install --with-deps
     - name: Build production code
       run: npm run build
-    - name: Start the server
-      run: npm run start-prod &
     - name: Run Playwright tests
       run: npm run test:e2e
     - uses: actions/upload-artifact@v4
