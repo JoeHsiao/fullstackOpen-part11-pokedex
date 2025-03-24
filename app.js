@@ -13,6 +13,7 @@ app.use(express.static('dist'))
 //   res.sendFile(path.join(__dirname, 'dist', 'index.html'))
 // })
 app.get('/health', (req, res) => {
+  if (true) throw('error...  ')
   res.send('ok')
 })
 
