@@ -5,8 +5,12 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
 jobs:
   deploy:
+    if: ${{ github.event_name == 'push' }}
     name: Build and deploy app
     runs-on: ubuntu-latest
     concurrency: deploy-group    # optional: ensure only one action runs at a time
