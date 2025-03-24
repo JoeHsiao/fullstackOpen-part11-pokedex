@@ -26,3 +26,13 @@ primary_region = 'sea'
 
 [processes]
   app = "node app.js" # add this
+
+[deploy]
+  strategy = "canary"
+
+[[http_service.checks]]
+  grace_period = "10s"
+  interval = "30s"
+  method = "GET"
+  timeout = "5s"
+  path = "/health"
