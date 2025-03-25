@@ -26,7 +26,7 @@ jobs:
         run: echo "$COMMIT_MESSAGES"
       - name: check for skip
         if: ${{ env.CAN_SKIP == 'true' }}
-        run: echo "skip found-"
+        run: echo "skip found"
       - name: check for skip
         if: ${{ env.CAN_SKIP == 'false' }}
         run: echo "skip not found"
