@@ -60,8 +60,7 @@ jobs:
         uses: tsickert/discord-webhook@v7.0.0
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          embed-title: "Unsuccessful build/deployment"
-          embed-url: "${{ github.event.head_commit.url }}"
+          content: "Unsuccessful build/deployment"
 
   tag_release:
     if: ${{ github.event_name == 'push' }}
