@@ -1,5 +1,8 @@
 name: Deployment pipeline
 
+env:
+  CAN_SKIP: ${{ contains(join(github.event.commits.*.message, '\n'), '#skip') }}
+
 on:
   push:
     branches:
@@ -38,20 +41,22 @@ jobs:
           path: playwright-report/
           retention-days: 30
       - name: Setup Flyctl
-        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, '\n'), '#skip') }}
+        if: ${{ github.event_name == 'push' && env.CAN_SKIP == 'false' }}
         uses: superfly/flyctl-actions/setup-flyctl@master
       - name: Deploy to Fly
-        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, '\n'), '#skip')}}
+        if: ${{ github.event_name == 'push' && env.CAN_SKIP == 'false' }}
         run: flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
   tag_release:
-    if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, '\n'), '#skip') }}
+    if: ${{ github.event_name == 'push' }}
     needs: simple_deployment_pipeline
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v4
+      - if: ${{ env.CAN_SKIP == 'false' }}
+        uses: actions/checkout@v4
       - name: Bump version and push tag
+        if: ${{ env.CAN_SKIP == 'false' }}
         uses: anothrNick/github-tag-action@1.71.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
