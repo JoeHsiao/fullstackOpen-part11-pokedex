@@ -1,7 +1,7 @@
 name: Testing stuff
 
 env:
-  CAN_SKIP = ${{ contains(join(github.event.commits.*.message, '\n'), '#skip') }}
+  CAN_SKIP: ${{ contains(join(github.event.commits.*.message, '\n'), '#skip') }}
 on:
   push:
     branches:
