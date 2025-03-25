@@ -61,7 +61,7 @@ jobs:
         with:
           webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
           embed-title: "Unsuccessful build/deployment"
-          embed-url: "${{ github.event.head_commit.url }}""
+          embed-url: "${{ github.event.head_commit.url }}"
 
   tag_release:
     if: ${{ github.event_name == 'push' }}
