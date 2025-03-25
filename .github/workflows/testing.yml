@@ -1,5 +1,9 @@
 name: Testing stuff
 
+env:
+  JOIN_COMMIT_MESSAGES: ${{ join(github.event.commits.*.message, '\n') }}
+  CAN_SKIP: ${{ JOIN_COMMIT_MESSAGES.contains('#skip') }}
+
 on:
   push:
     branches:
@@ -22,3 +26,5 @@ jobs:
         env:
           COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
         run: echo "$COMMIT_MESSAGES"
+      - name: can skip
+        run: echo "$CAN_SKIP"
