@@ -44,10 +44,23 @@ jobs:
         if: ${{ github.event_name == 'push' && env.CAN_SKIP == 'false' }}
         uses: superfly/flyctl-actions/setup-flyctl@master
       - name: Deploy to Fly
+        id: deployToFly
         if: ${{ github.event_name == 'push' && env.CAN_SKIP == 'false' }}
         run: flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      - name: Send success notification
+        if: ${{ steps.deployToFly.outcome == 'success' }}
+        uses: tsickert/discord-webhook@v7.0.0
+        with:
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          content: "Deployment successful for ${{ github.event.repository.html_url }}"
+      - name: Send failure notification
+        if: ${{ failure() }}
+        uses: tsickert/discord-webhook@v7.0.0
+        with:
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          content: "Deployment failed"
   tag_release:
     if: ${{ github.event_name == 'push' }}
     needs: simple_deployment_pipeline
