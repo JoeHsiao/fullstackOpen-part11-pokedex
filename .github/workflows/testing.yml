@@ -27,4 +27,4 @@ jobs:
           COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
         run: echo "$COMMIT_MESSAGES"
       - name: can skip
-        run: echo "$CAN_SKIP"
+        run: echo join_message "$JOIN_COMMIT_MESSAGES"; echo can_skip "$CAN_SKIP" 
