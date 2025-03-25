@@ -30,13 +30,9 @@ jobs:
       - name: check for skip
         if: ${{ env.CAN_SKIP == 'false' }}
         run: echo "skip not found"
-  skip_job:
-    if: ${{ env.CAN_SKIP == 'true' }}
+  print_job:
     runs-on: ubuntu-20.04
     steps:
-      - run: echo "skip found"
-  no_skip_job:
-    if: ${{ env.CAN_SKIP == 'false' }}
-    runs-on: ubuntu-20.04
-    steps:
-      - run: echo "skip not found"
+      - run: echo "$GITHUB_OBJ"
+    env:
+      GITHUB_OBJ: ${{ toJson(github) }}
